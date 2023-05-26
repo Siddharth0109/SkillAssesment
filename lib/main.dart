@@ -60,27 +60,54 @@ class PageState extends State<Page> {
   double containerHeight = 100;
 
   late double greenTop;
+  late double greenBottom;
   late double greenLeft;
+  late double greenRight;
 
   late double redTop;
+  late double redBottom;
   late double redLeft;
+  late double redRight;
+
+  late var redStarTop;
+  late var redStarLeft;
+
+  late var greenStarTop;
+  late var greenStarLeft;
 
   late var topVal;
   late var leftVal;
 
-  late var globalPositionDetail;
+  bool isStarInRed = true;
+  bool isStarInGreen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    left = MediaQuery.of(context).size.width / 5.toDouble();
+    top = MediaQuery.of(context).size.height / 8.toDouble();
+  }
 
   @override
   Widget build(BuildContext context) {
-    greenTop = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).size.height / 2;
-    greenLeft = MediaQuery.of(context).size.width -
-        MediaQuery.of(context).size.width / 3;
+    redStarTop = MediaQuery.of(context).size.height / 8.toDouble();
+    redStarLeft = MediaQuery.of(context).size.width / 5.toDouble();
 
-    redTop = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).size.height / 1.2;
-    redLeft = MediaQuery.of(context).size.width -
-        MediaQuery.of(context).size.width / 1.2;
+    greenStarTop = MediaQuery.of(context).size.height / 3.5.toDouble();
+    greenStarLeft = MediaQuery.of(context).size.width / 1.5.toDouble();
+
+    greenTop = MediaQuery.of(context).size.height / 4.5.toDouble();
+    greenBottom = MediaQuery.of(context).size.height / 2.5.toDouble();
+    greenLeft = MediaQuery.of(context).size.width / 2.5;
+    greenRight = MediaQuery.of(context).size.width / 1.2;
+
+    redTop = MediaQuery.of(context).size.height / 100.toDouble();
+    redBottom = MediaQuery.of(context).size.height / 4.5.toDouble();
+    redLeft = MediaQuery.of(context).size.width / 20.toDouble();
+    redRight = MediaQuery.of(context).size.width / 2.2.toDouble();
+/*
+    top = redStarTop;
+    left = redStarLeft;*/
 
     return Container(
       height: MediaQuery.of(context).size.height,
@@ -126,89 +153,41 @@ class PageState extends State<Page> {
                       onPanStart: (details) {
                         setState(() {
                           startHori = details.globalPosition.dx;
-                          startVert = details.globalPosition
-                              .dy; // top = 207.64285714285714  // 415.2857142857143 // 205.71428571428572 // 800.8571428571429
+                          startVert = details.globalPosition.dy;
                         });
                       },
-
-                      // green top(bottom) => MediaQuery.of(context).size.height / 2.2.toDouble();
-                      // green top (top) => MediaQuery.of(context).size.height / 4.toDouble();
-
-                      // green left (left) => MediaQuery.of(context).size.height / 2.toDouble();
-                      // green left (right) => MediaQuery.of(context).size.height / 1.1.toDouble();
-
                       onPanDown: (details) {},
                       onPanEnd: (details) {
                         setState(() {
-                          /*  top =
-                              MediaQuery.of(context).size.height / 4.toDouble();
-                          left = MediaQuery.of(context).size.width /
-                              1.1.toDouble();*/
-
-// top-bottom = 2.5 = 332.2285714285714
-// top-top = 4.5 = 184.57142857142856
-
-// left-left = 4.5 = 184.57142857142856
-// left-right = 2.5 = 184.57142857142856
-
-
-
-                         /* print("top-top => ${MediaQuery.of(context).size.height /
-                              4.5.toDouble()}");
-                          print("top-bottom => ${MediaQuery.of(context).size.height /
-                              2.5.toDouble()}");
-                          print("left-left => ${MediaQuery.of(context).size.height /
-                              3.toDouble()}");
-                          print("left-right => ${MediaQuery.of(context).size.height /
-                              1.1.toDouble()}");*/
-                          print("topVal => ${topVal}");
-                          print("leftVal => ${leftVal}");
-                          print("top => ${top}");
-                          print("left => ${left}");
-
-
-                          top = MediaQuery.of(context).size.height /
-                              4.5.toDouble();
-
-                          left = MediaQuery.of(context).size.width /
-                              2.5.toDouble();
-
-                          print("top => ${top}");
-                          print("left => ${left}");
-
-                       /*   if ((topVal >
-                                      MediaQuery.of(context).size.height /
-                                          4.toDouble() &&
-                                  topVal <
-                                      MediaQuery.of(context).size.height /
-                                          2.2.toDouble()) &&
-                              leftVal >
-                                  MediaQuery.of(context).size.height /
-                                      3.toDouble() &&
-                              topVal <
-                                  MediaQuery.of(context).size.height /
-                                      1.1.toDouble()) {
-                            top = greenTop;
-                            left = greenLeft;
-                          }else{
-                            top = redTop;
-                            left = redLeft;
-                          }*/
-
-                          /* if (topVal != greenTop) {
-                            top = greenTop;
+                          if ((topVal >= greenTop && topVal <= greenBottom) &&
+                              (leftVal >= greenLeft && leftVal <= greenRight)) {
+                            top = greenStarTop;
+                            left = greenStarLeft;
+                            isStarInRed = false;
+                            isStarInGreen = true;
+                          } else if ((topVal >= redTop &&
+                                  topVal <= redBottom) &&
+                              (leftVal >= redLeft && leftVal <= redRight)) {
+                            top = redStarTop;
+                            left = redStarLeft;
+                            isStarInRed = true;
+                            isStarInGreen = false;
+                          } else if (isStarInRed) {
+                            top = redStarTop;
+                            left = redStarLeft;
+                            isStarInRed = true;
+                            isStarInGreen = false;
+                          } else {
+                            top = greenStarTop;
+                            left = greenStarLeft;
+                            isStarInRed = false;
+                            isStarInGreen = true;
                           }
-
-                          if (leftVal != greenLeft) {
-                            left = greenLeft;
-                          }*/
                         });
                       },
                       onPanUpdate: (details) {
                         var screenWidth = MediaQuery.of(context).size.width;
                         var screenHeight = MediaQuery.of(context).size.height;
-
-                        globalPositionDetail = details.globalPosition;
 
                         topVal = details.globalPosition.dy - startVert;
                         leftVal = details.globalPosition.dx - startHori;
@@ -221,9 +200,9 @@ class PageState extends State<Page> {
                             left = leftVal.floorToDouble();
                           }
 
-                          if (leftVal < 0) {
+                        /*  if (leftVal < 0) {
                             left = 0;
-                          }
+                          }*/
 
                           if (leftVal > leftBounds) {
                             left = leftBounds.floorToDouble();
@@ -233,9 +212,9 @@ class PageState extends State<Page> {
                             top = topVal.floorToDouble();
                           }
 
-                          if (topVal < 0) {
+                        /*  if (topVal < 0) {
                             top = 0;
-                          }
+                          }*/
 
                           if (topVal > topBounds) {
                             top = topBounds.floorToDouble();
@@ -243,7 +222,7 @@ class PageState extends State<Page> {
                         });
                       },
                       child: const Icon(Icons.star,
-                          color: Colors.yellow, size: 50),
+                          color: Colors.yellow, size: 100),
                     )),
               ],
             ),
