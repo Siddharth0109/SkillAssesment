@@ -81,12 +81,6 @@ class PageState extends State<Page> {
   bool isStarInRed = true;
   bool isStarInGreen = false;
 
-  @override
-  void initState() {
-    super.initState();
-    left = MediaQuery.of(context).size.width / 5.toDouble();
-    top = MediaQuery.of(context).size.height / 8.toDouble();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,9 +99,7 @@ class PageState extends State<Page> {
     redBottom = MediaQuery.of(context).size.height / 4.5.toDouble();
     redLeft = MediaQuery.of(context).size.width / 20.toDouble();
     redRight = MediaQuery.of(context).size.width / 2.2.toDouble();
-/*
-    top = redStarTop;
-    left = redStarLeft;*/
+
 
     return Container(
       height: MediaQuery.of(context).size.height,
@@ -200,10 +192,6 @@ class PageState extends State<Page> {
                             left = leftVal.floorToDouble();
                           }
 
-                        /*  if (leftVal < 0) {
-                            left = 0;
-                          }*/
-
                           if (leftVal > leftBounds) {
                             left = leftBounds.floorToDouble();
                           }
@@ -212,9 +200,6 @@ class PageState extends State<Page> {
                             top = topVal.floorToDouble();
                           }
 
-                        /*  if (topVal < 0) {
-                            top = 0;
-                          }*/
 
                           if (topVal > topBounds) {
                             top = topBounds.floorToDouble();
